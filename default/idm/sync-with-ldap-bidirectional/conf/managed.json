@@ -27,9 +27,35 @@
                 "file" : "roles/postOperation-roles.js"
             },
             "actions" : {
-                "resetPassword": {
-                    "type": "text/javascript",
-                    "source": "require('ui/resetPassword').sendMail(object);"
+                "resetPassword" : {
+                    "type" : "text/javascript",
+                    "source" : "require('ui/resetPassword').sendMail(object);"
+                },
+                "unbind" : {
+                    "type" : "text/javascript",
+                    "file" : "ui/unBindBehavior.js",
+                    "apiDescriptor" : {
+                        "parameters" : [
+                            {
+                                "name" : "provider",
+                                "type" : "string",
+                                "required" : true
+                            }
+                        ]
+                    }
+                },
+                "bind" : {
+                    "type" : "text/javascript",
+                    "file" : "ui/bindBehavior.js",
+                    "apiDescriptor" : {
+                        "parameters" : [
+                            {
+                                "name" : "provider",
+                                "type" : "string",
+                                "required" : true
+                            }
+                        ]
+                    }
                 }
             },
             "schema" : {
@@ -65,7 +91,8 @@
                     "preferences",
                     "termsAccepted",
                     "lastChanged",
-                    "consentedMappings"
+                    "consentedMappings",
+                    "idps"
                 ],
                 "properties" : {
                     "_id" : {
@@ -99,7 +126,7 @@
                             "key" : "openidm-sym-default"
                         },
                         "scope" : "private",
-                        "isProtected": true,
+                        "isProtected" : true,
                         "usageDescription" : "",
                         "isPersonal" : false,
                         "policies" : [
@@ -148,12 +175,12 @@
                                     "type" : "string"
                                 }
                             },
-                            "order": [
+                            "order" : [
                                 "answer",
                                 "customQuestion",
                                 "questionId"
                             ],
-                            "required": []
+                            "required" : [ ]
                         }
                     },
                     "preferences" : {
@@ -170,16 +197,16 @@
                                 "description" : "Send me news and updates",
                                 "type" : "boolean"
                             },
-                            "marketing": {
+                            "marketing" : {
                                 "description" : "Send me special offers and services",
                                 "type" : "boolean"
                             }
                         },
-                        "order": [
+                        "order" : [
                             "updates",
                             "marketing"
                         ],
-                        "required": []
+                        "required" : [ ]
                     },
                     "mail" : {
                         "title" : "Email Address",
@@ -439,7 +466,7 @@
                         "isPersonal" : false,
                         "onRetrieve" : {
                             "type" : "text/javascript",
-                             "source" : "require('roles/effectiveRoles').calculateEffectiveRoles(object, 'roles');"
+                            "source" : "require('roles/effectiveRoles').calculateEffectiveRoles(object, 'roles');"
                         },
                         "items" : {
                             "type" : "object",
@@ -592,7 +619,7 @@
                             "effectiveAssignments",
                             "timestamp"
                         ],
-                        "required": []
+                        "required" : [ ]
                     },
                     "termsAccepted" : {
                         "title" : "Terms Accepted",
@@ -700,6 +727,51 @@
                         },
                         "returnByDefault" : false,
                         "isVirtual" : false
+                    },
+                    "idps" : {
+                        "title" : "Identity Providers",
+                        "viewable" : true,
+                        "searchable" : false,
+                        "userEditable" : false,
+                        "returnByDefault" : false,
+                        "type" : "array",
+                        "items" : {
+                            "type" : "relationship",
+                            "reverseRelationship" : true,
+                            "reversePropertyName" : "user",
+                            "validate" : true,
+                            "properties" : {
+                                "_ref" : {
+                                    "description" : "References a relationship from a managed object",
+                                    "type" : "string"
+                                },
+                                "_refProperties" : {
+                                    "description" : "Supports metadata within the relationship",
+                                    "type" : "object",
+                                    "title" : "Identity Providers _refProperties",
+                                    "properties" : { }
+                                }
+                            },
+                            "resourceCollection" : [
+                                {
+                                    "path" : "managed/google",
+                                    "label" : "google Info",
+                                    "query" : {
+                                        "queryFilter" : "true",
+                                        "fields" : [
+                                            "sub",
+                                            "name",
+                                            "given_name"
+                                        ],
+                                        "sortKeys" : [
+                                            "sub",
+                                            "name",
+                                            "given_name"
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
                     }
                 },
                 "type" : "object",
@@ -1030,7 +1102,7 @@
                                 "name",
                                 "value"
                             ],
-                            "required": []
+                            "required" : [ ]
                         }
                     },
                     "linkQualifiers" : {
@@ -1100,6 +1172,108 @@
                     "attributes",
                     "linkQualifiers"
                 ]
+            }
+        },
+        {
+            "name" : "google",
+            "title" : "google User Info",
+            "schema" : {
+                "title" : "Google",
+                "type" : "object",
+                "viewable" : true,
+                "properties" : {
+                    "user" : {
+                        "viewable" : true,
+                        "searchable" : false,
+                        "type" : "relationship",
+                        "title" : "User",
+                        "reverseRelationship" : true,
+                        "reversePropertyName" : "idps",
+                        "validate" : true,
+                        "properties" : {
+                            "_ref" : {
+                                "description" : "References a relationship from a managed object",
+                                "type" : "string"
+                            },
+                            "_refProperties" : {
+                                "description" : "Supports metadata within the relationship",
+                                "type" : "object",
+                                "title" : "googleuser _refProperties",
+                                "properties" : { }
+                            }
+                        },
+                        "resourceCollection" : [
+                            {
+                                "path" : "managed/user",
+                                "label" : "User",
+                                "query" : {
+                                    "queryFilter" : "true",
+                                    "fields" : [
+                                        "userName"
+                                    ],
+                                    "sortKeys" : [
+                                        "userName"
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "sub" : {
+                        "title" : "ID",
+                        "viewable" : true,
+                        "type" : "string",
+                        "searchable" : true
+                    },
+                    "name" : {
+                        "title" : "Name",
+                        "viewable" : true,
+                        "type" : "string",
+                        "searchable" : true
+                    },
+                    "given_name" : {
+                        "title" : "First Name",
+                        "viewable" : true,
+                        "type" : "string",
+                        "searchable" : true
+                    },
+                    "family_name" : {
+                        "title" : "Last Name",
+                        "viewable" : true,
+                        "type" : "string",
+                        "searchable" : true
+                    },
+                    "picture" : {
+                        "title" : "Profile Picture URL",
+                        "viewable" : true,
+                        "type" : "string",
+                        "searchable" : true
+                    },
+                    "email" : {
+                        "title" : "Email Address",
+                        "viewable" : true,
+                        "type" : "string",
+                        "searchable" : true
+                    },
+                    "locale" : {
+                        "title" : "Locale Code",
+                        "viewable" : true,
+                        "type" : "string",
+                        "searchable" : true
+                    }
+                },
+                "order" : [
+                    "sub",
+                    "name",
+                    "given_name",
+                    "family_name",
+                    "picture",
+                    "email",
+                    "locale",
+                    "user"
+                ],
+                "id" : "http://jsonschema.net",
+                "$schema" : "http://json-schema.org/draft-03/schema",
+                "required" : [ ]
             }
         }
     ]
