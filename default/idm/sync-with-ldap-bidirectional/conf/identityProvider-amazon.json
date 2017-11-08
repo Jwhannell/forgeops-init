@@ -1,0 +1,88 @@
+{
+    "provider" : "amazon",
+    "authorizationEndpoint" : "https://www.amazon.com/ap/oa",
+    "tokenEndpoint" : "https://api.amazon.com/auth/o2/token",
+    "userInfoEndpoint" : "https://api.amazon.com/user/profile",
+    "enabled" : true,
+    "clientId" : "jeremyah's browser",
+    "clientSecret" : {
+        "$crypto" : {
+            "type" : "x-simple-encryption",
+            "value" : {
+                "cipher" : "AES/CBC/PKCS5Padding",
+                "salt" : "sOSc+swiZ2YhrmJCn2tgUg==",
+                "data" : "3h00DWwmbTyRXFD5xsPpPBElZVW4ItsoClZlCT4e4DM=",
+                "iv" : "f32AGgmFp46N7lSYnOeoKg==",
+                "key" : "openidm-sym-default",
+                "mac" : "v/Q9NgadvdozNYkCV46oRw=="
+            }
+        }
+    },
+    "scope" : [
+        "profile"
+    ],
+    "authenticationIdKey" : "user_id",
+    "basicAuth" : false,
+    "uiConfig" : {
+        "iconBackground" : "#f0c14b",
+        "iconClass" : "fa-amazon",
+        "iconFontColor" : "black",
+        "buttonClass" : "fa-amazon",
+        "buttonDisplayName" : "Amazon",
+        "buttonCustomStyle" : "background: linear-gradient(to bottom, #f7e09f 15%,#f5c646 85%);color: black;border-color: #b48c24;",
+        "buttonCustomStyleHover" : "background: linear-gradient(to bottom, #f6c94e 15%,#f6c94e 85%);color: black;border-color: #b48c24;"
+    },
+    "schema" : {
+        "id" : "http://jsonschema.net",
+        "title" : "Amazon",
+        "viewable" : true,
+        "type" : "object",
+        "$schema" : "http://json-schema.org/draft-03/schema",
+        "properties" : {
+            "user_id" : {
+                "title" : "ID",
+                "viewable" : true,
+                "type" : "string",
+                "searchable" : true
+            },
+            "name" : {
+                "title" : "Name",
+                "viewable" : true,
+                "type" : "string",
+                "searchable" : true
+            },
+            "email" : {
+                "title" : "Email Address",
+                "viewable" : true,
+                "type" : "string",
+                "searchable" : true
+            }
+        },
+        "order" : [
+            "user_id",
+            "name",
+            "email"
+        ],
+        "required" : [ ]
+    },
+    "propertyMap" : [
+        {
+            "source" : "user_id",
+            "target" : "id"
+        },
+        {
+            "source" : "name",
+            "target" : "displayName"
+        },
+        {
+            "source" : "email",
+            "target" : "email"
+        },
+        {
+            "source" : "email",
+            "target" : "username"
+        }
+    ],
+    "redirectUri" : "http://openidm.default.duckdns.org/oauthReturn/",
+    "configClass" : "org.forgerock.oauth.clients.oauth2.OAuth2ClientConfiguration"
+}

@@ -771,19 +771,19 @@
                                     }
                                 },
                                 {
-                                    "path" : "managed/facebook",
-                                    "label" : "facebook Info",
+                                    "path" : "managed/amazon",
+                                    "label" : "amazon Info",
                                     "query" : {
                                         "queryFilter" : "true",
                                         "fields" : [
-                                            "id",
+                                            "user_id",
                                             "name",
-                                            "first_name"
+                                            "email"
                                         ],
                                         "sortKeys" : [
-                                            "id",
+                                            "user_id",
                                             "name",
-                                            "first_name"
+                                            "email"
                                         ]
                                     }
                                 }
@@ -1294,10 +1294,10 @@
             }
         },
         {
-            "name" : "facebook",
-            "title" : "facebook User Info",
+            "name" : "amazon",
+            "title" : "amazon User Info",
             "schema" : {
-                "title" : "Facebook",
+                "title" : "Amazon",
                 "type" : "object",
                 "viewable" : true,
                 "properties" : {
@@ -1317,7 +1317,7 @@
                             "_refProperties" : {
                                 "description" : "Supports metadata within the relationship",
                                 "type" : "object",
-                                "title" : "facebookuser _refProperties",
+                                "title" : "amazonuser _refProperties",
                                 "properties" : { }
                             }
                         },
@@ -1337,7 +1337,7 @@
                             }
                         ]
                     },
-                    "id" : {
+                    "user_id" : {
                         "title" : "ID",
                         "viewable" : true,
                         "type" : "string",
@@ -1349,38 +1349,17 @@
                         "type" : "string",
                         "searchable" : true
                     },
-                    "first_name" : {
-                        "title" : "First Name",
-                        "viewable" : true,
-                        "type" : "string",
-                        "searchable" : true
-                    },
-                    "last_name" : {
-                        "title" : "Last Name",
-                        "viewable" : true,
-                        "type" : "string",
-                        "searchable" : true
-                    },
                     "email" : {
                         "title" : "Email Address",
-                        "viewable" : true,
-                        "type" : "string",
-                        "searchable" : true
-                    },
-                    "locale" : {
-                        "title" : "Locale Code",
                         "viewable" : true,
                         "type" : "string",
                         "searchable" : true
                     }
                 },
                 "order" : [
-                    "id",
+                    "user_id",
                     "name",
-                    "first_name",
-                    "last_name",
                     "email",
-                    "locale",
                     "user"
                 ],
                 "id" : "http://jsonschema.net",
