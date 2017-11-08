@@ -769,6 +769,23 @@
                                             "given_name"
                                         ]
                                     }
+                                },
+                                {
+                                    "path" : "managed/facebook",
+                                    "label" : "facebook Info",
+                                    "query" : {
+                                        "queryFilter" : "true",
+                                        "fields" : [
+                                            "id",
+                                            "name",
+                                            "first_name"
+                                        ],
+                                        "sortKeys" : [
+                                            "id",
+                                            "name",
+                                            "first_name"
+                                        ]
+                                    }
                                 }
                             ]
                         }
@@ -1267,6 +1284,101 @@
                     "given_name",
                     "family_name",
                     "picture",
+                    "email",
+                    "locale",
+                    "user"
+                ],
+                "id" : "http://jsonschema.net",
+                "$schema" : "http://json-schema.org/draft-03/schema",
+                "required" : [ ]
+            }
+        },
+        {
+            "name" : "facebook",
+            "title" : "facebook User Info",
+            "schema" : {
+                "title" : "Facebook",
+                "type" : "object",
+                "viewable" : true,
+                "properties" : {
+                    "user" : {
+                        "viewable" : true,
+                        "searchable" : false,
+                        "type" : "relationship",
+                        "title" : "User",
+                        "reverseRelationship" : true,
+                        "reversePropertyName" : "idps",
+                        "validate" : true,
+                        "properties" : {
+                            "_ref" : {
+                                "description" : "References a relationship from a managed object",
+                                "type" : "string"
+                            },
+                            "_refProperties" : {
+                                "description" : "Supports metadata within the relationship",
+                                "type" : "object",
+                                "title" : "facebookuser _refProperties",
+                                "properties" : { }
+                            }
+                        },
+                        "resourceCollection" : [
+                            {
+                                "path" : "managed/user",
+                                "label" : "User",
+                                "query" : {
+                                    "queryFilter" : "true",
+                                    "fields" : [
+                                        "userName"
+                                    ],
+                                    "sortKeys" : [
+                                        "userName"
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    "id" : {
+                        "title" : "ID",
+                        "viewable" : true,
+                        "type" : "string",
+                        "searchable" : true
+                    },
+                    "name" : {
+                        "title" : "Name",
+                        "viewable" : true,
+                        "type" : "string",
+                        "searchable" : true
+                    },
+                    "first_name" : {
+                        "title" : "First Name",
+                        "viewable" : true,
+                        "type" : "string",
+                        "searchable" : true
+                    },
+                    "last_name" : {
+                        "title" : "Last Name",
+                        "viewable" : true,
+                        "type" : "string",
+                        "searchable" : true
+                    },
+                    "email" : {
+                        "title" : "Email Address",
+                        "viewable" : true,
+                        "type" : "string",
+                        "searchable" : true
+                    },
+                    "locale" : {
+                        "title" : "Locale Code",
+                        "viewable" : true,
+                        "type" : "string",
+                        "searchable" : true
+                    }
+                },
+                "order" : [
+                    "id",
+                    "name",
+                    "first_name",
+                    "last_name",
                     "email",
                     "locale",
                     "user"
